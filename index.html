@@ -11,9 +11,12 @@
 </head>
 
 <body>
-   <canvas id="canvas_exterior" width="1600" height="960"></canvas>
+   <canvas id="canvas" width="1600" height="960"></canvas>
+   <div id="timer">
+
+   </div>
    <script>
-      var canvas = document.getElementById('canvas_exterior');
+      var canvas = document.getElementById('canvas');
       var context = canvas.getContext('2d');
 
       var teclado = new teclado(document); 

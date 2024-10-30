@@ -1,11 +1,22 @@
-#canvas_interior{
-    background-image: url(assets/CenarioInterior.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
+body{
+    background-color: black;
+    display: flex;
+    flex-direction: row;
 }
-
-#canvas_exterior{
+#canvas{
     background-image: url(assets/CenarioExterior.jpeg);
     background-repeat: no-repeat;
     background-size: cover;
+    max-height: 960px;
+    max-width: 1600px;
+    width: 70%;
+    height: 70%;
+    border-radius: 5px;
+}
+
+#timer{
+    width: 380px;
+    background-color: white;
+    margin-left: 8px;
+    border-radius: 5px;
 }
