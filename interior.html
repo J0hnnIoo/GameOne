@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Personagem controlável e animado</title>
+   <script src="js/spritesheet.js"></script> 
+   <script src="js/animacao.js"></script> 
+   <script src="js/teclado.js"></script> 
+   <script src="js/personagemPrincipal.js"></script>
+   <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+   <canvas id="canvas_interior" width="1600" height="960"></canvas>
+   <script>
+      var canvas = document.getElementById('canvas_interior');
+      var context = canvas.getContext('2d');
+
+      var teclado = new teclado(document); 
+      var animacao = new animacao(context); 
+
+      var imgPersonagemPrincipal = new Image(); 
+      imgPersonagemPrincipal.src = 'assets/PersonagemPrincipal.png'; 
+
+      var personagemPrincipal = new personagemPrincipal(context, teclado, imgPersonagemPrincipal);
+      personagemPrincipal.x = 740; 
+      personagemPrincipal.y = 820; 
+      animacao.novoSprite(personagemPrincipal);
+
+      imgPersonagemPrincipal.onload = function() {
+         animacao.ligar();
+      }
+   </script>
+</body>
+
+</html>
+
+
