@@ -17,29 +17,57 @@ function personagemPrincipal(context, teclado, imagem) {
   this.direcao = PERSONAGEM_BAIXO;
 }
 
+function colideComObstaculo(x, y, larguraSprite, alturaSprite) {
+  const obstaculos = [
+    { x: 0, y: 0, width: 260, height: 340 }, 
+    { x: 0, y: 0, width: 830, height: 220 },
+    { x: 730, y: 0, width: 100, height: 340 },
+    { x: 730, y: 270, width: 170, height: 70 },
+    { x: 0, y: 340, width: 510, height: 10 },
+    { x: 1280, y: 510, width: 320, height: 450 },
+    { x: 1430, y: 480, width: 320, height: 300 },
+    { x: 1100, y: 480, width: 200, height: 240 },
+    { x: 1180, y: 920, width: 180, height: 80 },
+    { x: 1430, y: 0, width: 320, height: 80 },
+    { x: 1480, y: 0, width: 200, height: 200 },
+    { x: 980, y: 160, width: 180, height: 60 },
+    { x: 400, y: 600, width: 60, height: 50 },
+  ];
+
+  context.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Vermelho com transparência
+
+  for (let obstaculo of obstaculos) {
+      context.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
+  }
+  
+  for (let obstaculo of obstaculos) {
+    if (x < obstaculo.x + obstaculo.width &&
+      x + larguraSprite > obstaculo.x &&
+      y < obstaculo.y + obstaculo.height &&
+      y + alturaSprite > obstaculo.y) {
+      return false;
+    }
+  }
+  return true;
+}
+
 personagemPrincipal.prototype = {
   atualizar: function () {
-    if (this.teclado.pressionada(SETA_DIREITA) && this.x < this.context.canvas.width - 60) {
-      // Se já não estava neste estado...
+    if (this.teclado.pressionada(SETA_DIREITA) && this.x < this.context.canvas.width - 60 && colideComObstaculo(this.x + this.velocidade, this.y, 60, 90)) {
       if (!this.andando || this.direcao != PERSONAGEM_DIREITA) {
-        // Seleciono o quadro da spritesheet
-        //TODO setar respectivamente com o sprite
         this.sheet.linha = 1;
         this.sheet.coluna = 0;
       }
 
-      // Configuro o estado atual
       this.andando = true;
       this.direcao = PERSONAGEM_DIREITA;
 
-      // Neste estado, a animação da spritesheet deve rodar
       this.sheet.proximoQuadro();
 
-      // Desloco o Sonic
       this.x += this.velocidade;
-    } else if (this.teclado.pressionada(SETA_ESQUERDA) && this.x > this.context.canvas.width - this.context.canvas.width) {
+    } else if (this.teclado.pressionada(SETA_ESQUERDA) && this.x > this.context.canvas.width - this.context.canvas.width && colideComObstaculo(this.x - this.velocidade, this.y, 60, 90)) {
       if (!this.andando || this.direcao != PERSONAGEM_ESQUERDA) {
-        this.sheet.linha = 2; 
+        this.sheet.linha = 2;
         this.sheet.coluna = 0;
       }
 
@@ -47,36 +75,36 @@ personagemPrincipal.prototype = {
       this.direcao = PERSONAGEM_ESQUERDA;
       this.sheet.proximoQuadro();
       this.x -= this.velocidade;
-    } else if (this.teclado.pressionada(SETA_CIMA) && this.y > this.context.canvas.height - this.context.canvas.height) {
+    } else if (this.teclado.pressionada(SETA_CIMA) && this.y > this.context.canvas.height - this.context.canvas.height && colideComObstaculo(this.x, this.y - this.velocidade, 60, 90)) {
       if (!this.andando || this.direcao != PERSONAGEM_CIMA) {
-        this.sheet.linha = 3; 
+        this.sheet.linha = 3;
         this.sheet.coluna = 0;
       }
 
       this.andando = true;
       this.direcao = PERSONAGEM_CIMA;
       this.sheet.proximoQuadro();
-      this.y -= this.velocidade; 
-    } else if (this.teclado.pressionada(SETA_BAIXO) && this.y < this.context.canvas.height - 90) {
+      this.y -= this.velocidade;
+    } else if (this.teclado.pressionada(SETA_BAIXO) && this.y < this.context.canvas.height - 90 && colideComObstaculo(this.x, this.y + this.velocidade, 60, 90)) {
       if (!this.andando || this.direcao != PERSONAGEM_BAIXO) {
-        this.sheet.linha = 0; 
+        this.sheet.linha = 0;
         this.sheet.coluna = 0;
       }
 
       this.andando = true;
       this.direcao = PERSONAGEM_BAIXO;
       this.sheet.proximoQuadro();
-      this.y += this.velocidade; 
+      this.y += this.velocidade;
     } else {
-        //AQUI SETA DE ACORDO COM A COLUNA DO PERSONAGEM PARADO EM CADA DIRECAO
+      //AQUI SETA DE ACORDO COM A COLUNA DO PERSONAGEM PARADO EM CADA DIRECAO
       if (this.direcao == PERSONAGEM_DIREITA) {
-        this.sheet.coluna = 3 ; this.sheet.linha = 1;
+        this.sheet.coluna = 3; this.sheet.linha = 1;
       }
-      else if (this.direcao == PERSONAGEM_ESQUERDA){
-        this.sheet.coluna = 3 ; this.sheet.linha = 2;
-      } 
+      else if (this.direcao == PERSONAGEM_ESQUERDA) {
+        this.sheet.coluna = 3; this.sheet.linha = 2;
+      }
       else if (this.direcao == PERSONAGEM_CIMA) {
-        this.sheet.coluna = 3 ; this.sheet.linha = 3;
+        this.sheet.coluna = 3; this.sheet.linha = 3;
       }
       else if (this.direcao == PERSONAGEM_BAIXO) {
         this.sheet.coluna = 3; this.sheet.linha = 0;
