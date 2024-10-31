@@ -23,7 +23,30 @@ function colideComObstaculo(x, y, larguraSprite, alturaSprite) {
   let obstaculos = [];
   if (personagemPrincipal.interior) {
     obstaculos = [
-      { x: 0, y: 0, width: 260, height: 340 }
+      { x: 0, y: 0, width: 320, height: 320 }, //Inicial
+      { x: 0, y: 0, width: 200, height: 520 }, //Max até TV
+      { x: 0, y: 0, width: 150, height: 960 }, //Sofá de baixo
+      { x: 0, y: 425, width: 360, height: 95 }, //Aquario
+      { x: 0, y: 0, width: 1280, height: 210 }, //Parte de cima
+      { x: 0, y: 0, width: 1600, height: 130 }, //Parte de cima tirando parte do lado da cama
+      { x: 1390, y: 0, width: 200, height: 260 }, //Cama
+      { x: 1440, y: 0, width: 260, height: 960 }, //Lateral direita
+      { x: 325, y: 425, width: 40, height: 245 }, //Cadeiras Sala
+      { x: 210, y: 610, width: 40, height: 60 }, //Mesa de centro
+      { x: 0, y: 770, width: 690, height: 190 },  //Parte de baixo
+      { x: 430, y: 695, width: 260, height: 200 }, //Armario
+      { x: 590, y: 665, width: 100, height: 100 }, //Canto esquerdo antes do armario
+      { x: 540, y: 0, width: 420, height: 305 }, // Abajur
+      { x: 585, y: 0, width: 375, height: 410 }, // Cozinha
+      { x: 640, y: 0, width: 100, height: 470 }, // Mesa Cozinha
+      { x: 700, y: 0, width: 40, height: 515 }, // Banquinho Cozinha
+      { x: 900, y: 395, width: 110, height: 230 }, //Canto Abajur vermelho
+      { x: 1125, y: 395, width: 475, height: 240 }, //Parede entre mesa de jantar e quarto
+      { x: 1180, y: 395, width: 475, height: 555 }, //Mesa de Jantar
+      { x: 0, y: 930, width: 1600, height: 30 }, //Parte de baixo fora a fora
+      { x: 690, y: 830, width: 50, height: 240 }, //Canto Esquerdo Spawn
+      { x: 810, y: 830, width: 150, height: 240 }, //Canto Direito Spawn
+      { x: 960, y: 880, width: 640, height: 240 }, //Depois do Canto direito Spawn
     ];
   } else {
     obstaculos = [
