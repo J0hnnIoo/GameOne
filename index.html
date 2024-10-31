@@ -1,42 +1,70 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Personagem controlável e animado</title>
+    <script src="js/spritesheet.js"></script>
+    <script src="js/animacao.js"></script>
+    <script src="js/teclado.js"></script>
+    <script src="js/personagemPrincipal.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-   <title>Personagem controlável e animado</title>
-   <script src="js/spritesheet.js"></script> 
-   <script src="js/animacao.js"></script> 
-   <script src="js/teclado.js"></script> 
-   <script src="js/personagemPrincipal.js"></script>
-   <link rel="stylesheet" href="style.css">
-</head>
+  <body>
+    <canvas id="canvas" width="1600" height="960"></canvas>
+    <div id="wrapper">
+      <div id="timer">60</div>
+      <button id="startButton">Start</button>
+      <p id="regras">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod natus
+        repellat, eius sint placeat aperiam, exercitationem voluptates magni
+        error, provident sunt fugiat beatae cum ea at iure accusamus quis
+        voluptatum.
+      </p>
+    </div>
+    <script>
+      let segundos = 60
+      let intervalo;
 
-<body>
-   <canvas id="canvas" width="1600" height="960"></canvas>
-   <div id="timer">
 
-   </div>
-   <script>
-      var canvas = document.getElementById('canvas');
-      var context = canvas.getContext('2d');
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
+      var timer = document.getElementById("timer")
 
-      var teclado = new teclado(document); 
-      var animacao = new animacao(context); 
+      var teclado = new teclado(document);
+      var animacao = new animacao(context);
 
-      var imgPersonagemPrincipal = new Image(); 
-      imgPersonagemPrincipal.src = 'assets/PersonagemPrincipal.png'; 
+      var imgPersonagemPrincipal = new Image();
+      imgPersonagemPrincipal.src = "assets/PersonagemPrincipal.png";
 
-      var personagemPrincipal = new personagemPrincipal(context, teclado, imgPersonagemPrincipal);
-      personagemPrincipal.x = 1200; 
-      personagemPrincipal.y = 370; 
-      personagemPrincipal.direcao = 2
+      var personagemPrincipal = new personagemPrincipal(
+        context,
+        teclado,
+        imgPersonagemPrincipal
+      );
+      personagemPrincipal.x = 1200;
+      personagemPrincipal.y = 370;
+      personagemPrincipal.direcao = 2;
       animacao.novoSprite(personagemPrincipal);
 
-      imgPersonagemPrincipal.onload = function() {
-         animacao.ligar();
+      imgPersonagemPrincipal.onload = function () {
+        animacao.ligar();
+      };
+
+      function atualizarTimer(params) {
+         segundos--
+         timer.textContent = segundos;
+         if (segundos == 0) {
+            timer.textContent = 0;
+            clearInterval(intervalo);
+            intervalo = null;
+         }
       }
-   </script>
-</body>
 
+      document.getElementById("startButton").addEventListener("click", () => {
+         if (!intervalo) {
+            intervalo = setInterval(atualizarTimer, 1000);
+         } 
+      });
+    </script>
+  </body>
 </html>
-
-
