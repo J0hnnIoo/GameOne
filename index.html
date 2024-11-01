@@ -6,65 +6,99 @@
     <script src="js/animacao.js"></script>
     <script src="js/teclado.js"></script>
     <script src="js/personagemPrincipal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <canvas id="canvas" width="1600" height="960"></canvas>
-    <!-- AQUI INICIAR MUSICA DE SIRENE DE POLICIA, MUSICA DE AÇÃO OU ALGO DO GENERO -->
     <div id="wrapper">
       <div id="timer">30</div>
       <button id="startButton">Start</button>
       <p id="regras">
         A polícia está atrás de você, se esconda!
-        <br><br>
-        Encontre um local para se enconder dentro de 30 segundos e fique escondido até o tempo acabar para ganhar!
-         <br><br>
-         ⬅ Move para a Esquerda <br>
-         ⮕ Move para a Direita  <br>
-         ⬆ Move para Cima <br>
-         ⬇ Move para Baixo <br>
-         [SPACE] Entrar nos lugares
+        <br /><br />
+        Encontre um local para se enconder dentro de 30 segundos e fique
+        escondido até o tempo acabar para ganhar!
+        <br /><br />
+        ⬅ Move para a Esquerda <br />
+        ⮕ Move para a Direita <br />
+        ⬆ Move para Cima <br />
+        ⬇ Move para Baixo <br />
+        [SPACE] Entrar nos lugares
       </p>
     </div>
     <div id="wrapperVitoria">
       <div id="menuVitoria">
-         <p id="TituloResultado">
-            GANHOU!
-         </p>
-         <p id="DescricaoResultado">
-            Você conseguiu escapar da polícia, Parabéns!
-         </p>
-         <a href="index.html">
-            <button id="btnResultado">
-               Jogar Novamente
-            </button>
-         </a>
+        <p id="TituloResultado">GANHOU!</p>
+        <p id="DescricaoResultado">
+          Você conseguiu escapar da polícia, Parabéns!
+        </p>
+        <a href="index.html">
+          <button id="btnResultado">Jogar Novamente</button>
+        </a>
       </div>
     </div>
     <div id="wrapperDerrota">
       <div id="menuDerrota">
-         <p id="TituloResultado">
-            PERDEU!
-         </p>
-         <p id="DescricaoResultado">
-            Você foi pego pela polícia, tente novamente!
-         </p>
-         <a href="index.html">
-            <button id="btnResultado">
-               Tente Novamente
-            </button>
-         </a>
+        <p id="TituloResultado">PERDEU!</p>
+        <p id="DescricaoResultado">
+          Você foi pego pela polícia, tente novamente!
+        </p>
+        <a href="index.html">
+          <button id="btnResultado">Tente Novamente</button>
+        </a>
       </div>
     </div>
     <script>
       let segundos = 30;
       let intervalo;
 
+      const som_policia = new Howl({
+        src: ["sounds/som_policia.wav"],
+        loop: true,
+        onload: () => {
+          console.log("Áudio (som_policia) carregado com sucesso!");
+        },
+        onloaderror: (id, err) => {
+          console.error("Erro ao carregar áudio (som_policia):", err);
+        },
+      });
 
+      const som_game_over = new Howl({
+        src: ["sounds/game_over.wav"],
+        onload: () => {
+          console.log("Áudio (game_over) carregado com sucesso!");
+        },
+        onloaderror: (id, err) => {
+          console.error("Erro ao carregar áudio (game_over):", err);
+        },
+      });
+
+      const som_vitoria = new Howl({
+        src: ["sounds/vitoria.wav"],
+        onload: () => {
+          console.log("Áudio (vitoria) carregado com sucesso!");
+        },
+        onloaderror: (id, err) => {
+          console.error("Erro ao carregar áudio (vitoria):", err);
+        },
+      });
+
+      const som_musica = new Howl({
+        src: ["sounds/musica.wav"],
+        onload: () => {
+          console.log("Áudio (vitoria) carregado com sucesso!");
+        },
+        onloaderror: (id, err) => {
+          console.error("Erro ao carregar áudio (vitoria):", err);
+        },
+
+        loop: true,
+      });
       var canvas = document.getElementById("canvas");
       var context = canvas.getContext("2d");
-      var timer = document.getElementById("timer")
+      var timer = document.getElementById("timer");
 
       var teclado = new teclado(document);
       var animacao = new animacao(context);
@@ -87,29 +121,35 @@
       };
 
       function atualizarTimer(params) {
-         segundos--
-         timer.textContent = segundos;
-         if (segundos == 0) {
-            timer.textContent = 0;
-            clearInterval(intervalo);
-            intervalo = null;
-            personagemPrincipal.podeCaminhar = false;
-            console.log(personagemPrincipal.podeCaminhar);
-            if(personagemPrincipal.escondido){
-               document.getElementById('wrapperVitoria').style.display = 'flex';
-               /* AQUI PARAR DE TOCAR A MUSICA AMBIENTE E TOCAR UMA MUSICA DE VITORIA */
-            }else{
-               document.getElementById('wrapperDerrota').style.display = 'flex';
-               /* AQUI PARAR DE TOCAR A MUSICA AMBIENTE E COMECAR A TOCAR UMA MUSICA DE DERROTA */
-            }
-         }
+        segundos--;
+        timer.textContent = segundos;
+        if (segundos == 0) {
+          timer.textContent = 0;
+          clearInterval(intervalo);
+          intervalo = null;
+          personagemPrincipal.podeCaminhar = false;
+          console.log(personagemPrincipal.podeCaminhar);
+          if (personagemPrincipal.escondido) {
+            document.getElementById("wrapperVitoria").style.display = "flex";
+            som_policia.stop();
+            som_vitoria.play();
+          } else {
+            document.getElementById("wrapperDerrota").style.display = "flex";
+            som_policia.stop();
+            som_game_over.play();
+          }
+        }
       }
 
       document.getElementById("startButton").addEventListener("click", () => {
-         if (!intervalo && segundos > 0) {
-            intervalo = setInterval(atualizarTimer, 1000);
-         } 
-         personagemPrincipal.podeCaminhar = true;
+        som_policia.volume(0.05);
+        som_musica.volume(0.06)
+        if (!intervalo) {
+          intervalo = setInterval(atualizarTimer, 1000);
+          som_policia.play();
+          som_musica.play();
+        }
+        personagemPrincipal.podeCaminhar = true;
       });
     </script>
   </body>
