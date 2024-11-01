@@ -12,17 +12,22 @@
   <body>
     <canvas id="canvas" width="1600" height="960"></canvas>
     <div id="wrapper">
-      <div id="timer">60</div>
+      <div id="timer">30</div>
       <button id="startButton">Start</button>
       <p id="regras">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod natus
-        repellat, eius sint placeat aperiam, exercitationem voluptates magni
-        error, provident sunt fugiat beatae cum ea at iure accusamus quis
-        voluptatum.
+        A polícia está atrás de você, se esconda!
+        <br>
+        Encontre um local para se enconder dentro de 30 segundos e fique escondido até o tempo acabar para ganhar!
+         <br><br>
+         ⬅ Move para a Esquerda <br>
+         ⮕ Move para a Direita  <br>
+         ⬆ Move para Cima <br>
+         ⬇ Move para Baixo <br>
+         [SPACE] Entrar nos lugares
       </p>
     </div>
     <script>
-      let segundos = 60
+      let segundos = 30;
       let intervalo;
 
 
@@ -43,7 +48,7 @@
       );
       personagemPrincipal.x = 1200;
       personagemPrincipal.y = 370;
-      personagemPrincipal.direcao = 2;
+      personagemPrincipal.direcao = PERSONAGEM_ESQUERDA;
       animacao.novoSprite(personagemPrincipal);
 
       imgPersonagemPrincipal.onload = function () {

@@ -62,3 +62,10 @@ body {
 #startButton:active {
   transform: scale(0.95);
 }
+
+#regras{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}

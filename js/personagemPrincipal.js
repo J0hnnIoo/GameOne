@@ -17,6 +17,11 @@ function personagemPrincipal(context, teclado, imagem) {
   this.direcao = PERSONAGEM_BAIXO;
   this.interior = false;
   this.entrando = false;
+  this.escondendo = false;
+  this.escondido = false;
+
+  this.xTemp = null;
+  this.yTemp = null;
 }
 
 function colideComObstaculo(x, y, larguraSprite, alturaSprite) {
@@ -47,6 +52,7 @@ function colideComObstaculo(x, y, larguraSprite, alturaSprite) {
       { x: 690, y: 830, width: 50, height: 240 }, //Canto Esquerdo Spawn
       { x: 810, y: 830, width: 150, height: 240 }, //Canto Direito Spawn
       { x: 960, y: 880, width: 640, height: 240 }, //Depois do Canto direito Spawn
+      { x: 19000, y: 19000, width: 2000, height: 2000 }, //LocalEscondido
     ];
   } else {
     obstaculos = [
@@ -63,6 +69,7 @@ function colideComObstaculo(x, y, larguraSprite, alturaSprite) {
       { x: 1480, y: 0, width: 200, height: 200 },
       { x: 980, y: 160, width: 180, height: 60 },
       { x: 400, y: 600, width: 60, height: 50 },
+      { x: 19000, y: 19000, width: 2000, height: 2000 }, //LocalEscondido
     ];
   }
 
@@ -106,6 +113,42 @@ function interacaoPorta(x, y, larguraSprite, alturaSprite) {
       x + larguraSprite > porta.x &&
       y < porta.y + porta.height &&
       y + alturaSprite > porta.y) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function interacaoSeEsconder(x, y, larguraSprite, alturaSprite) {
+  let esconderijos = [];
+  if(personagemPrincipal.interior){
+    esconderijos = [
+      { x: 150, y: 250, width: 100, height: 150 }, //Mesa de centro canto superior esquerdo
+      { x: 130, y: 600, width: 50, height: 150 }, //Sofá canto inferior esquerdo
+      { x: 450, y: 670, width: 60, height: 30 }, //Armario
+      { x: 620, y: 350, width: 150, height: 160 }, //Mesa Cozinha
+      { x: 1150, y: 550, width: 200, height: 340 }, //Mesa de Jantar
+      { x: 1360, y: 0, width: 200, height: 300 }, //Cama
+      { x: 19000, y: 19000, width: 2000, height: 2000 }, //LocalEscondido
+    ];
+  }else{
+    esconderijos = [
+      { x: 19000, y: 19000, width: 2000, height: 2000 }, //LocalEscondido
+      { x: 1000, y: 200, width: 200, height: 90 }, //Caixote
+    ];
+  }
+  
+  context.fillStyle = 'rgba(0, 0, 255, 0.5)'; // Vermelho com transparência
+
+  for (let esconderijo of esconderijos) {
+    context.fillRect(esconderijo.x, esconderijo.y, esconderijo.width, esconderijo.height);
+  }
+
+  for (let esconderijo of esconderijos) {
+    if (x < esconderijo.x + esconderijo.width &&
+      x + larguraSprite > esconderijo.x &&
+      y < esconderijo.y + esconderijo.height &&
+      y + alturaSprite > esconderijo.y) {
       return true;
     }
   }
@@ -155,21 +198,38 @@ personagemPrincipal.prototype = {
       this.direcao = PERSONAGEM_BAIXO;
       this.sheet.proximoQuadro();
       this.y += this.velocidade;
-    } else if (this.teclado.pressionada(ESPACO) && interacaoPorta(this.x, this.y + this.velocidade, 60, 90)) {
-      if(this.entrando == false){
-        this.entrando = true;
-        if(this.interior){
-          document.getElementById('canvas').style.backgroundImage = 'url(assets/CenarioExterior.jpeg)';
-          this.x = 585;
-          this.y = 240;
-          this.direcao = PERSONAGEM_BAIXO;
-          this.interior = false;
-        }else{
-          document.getElementById('canvas').style.backgroundImage = 'url(assets/CenarioInterior.jpg)';
-          this.x = 740;
-          this.y = 820;
-          this.direcao = PERSONAGEM_CIMA;
-          this.interior = true;
+    } else if (this.teclado.pressionada(ESPACO) && (interacaoPorta(this.x, this.y, 60, 90) || interacaoSeEsconder(this.x, this.y, 60, 90))) {
+      if(interacaoPorta(this.x, this.y, 60, 90)){
+        if(this.entrando == false){
+          this.entrando = true;
+          if(this.interior){
+            document.getElementById('canvas').style.backgroundImage = 'url(assets/CenarioExterior.jpeg)';
+            this.x = 585;
+            this.y = 240;
+            this.direcao = PERSONAGEM_BAIXO;
+            this.interior = false;
+          }else{
+            document.getElementById('canvas').style.backgroundImage = 'url(assets/CenarioInterior.jpg)';
+            this.x = 740;
+            this.y = 820;
+            this.direcao = PERSONAGEM_CIMA;
+            this.interior = true;
+          }
+        }
+      }else{
+        if(this.escondendo == false){
+          this.escondendo = true;
+          if(this.escondido){
+            this.escondido = false;
+            this.x = this.xTemp;
+            this.y = this.yTemp;
+          }else{
+            this.escondido = true;
+            this.xTemp = this.x;
+            this.yTemp = this.y;
+            this.x = 20000;
+            this.y = 20000;
+          }
         }
       }
     } else {
@@ -189,6 +249,7 @@ personagemPrincipal.prototype = {
 
       this.andando = false;
       this.entrando = false;
+      this.escondendo = false;
     }
   },
   desenhar: function () {
