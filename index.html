@@ -11,6 +11,7 @@
 
   <body>
     <canvas id="canvas" width="1600" height="960"></canvas>
+    <!-- AQUI INICIAR MUSICA DE SIRENE DE POLICIA, MUSICA DE AÇÃO OU ALGO DO GENERO -->
     <div id="wrapper">
       <div id="timer">30</div>
       <button id="startButton">Start</button>
@@ -96,8 +97,10 @@
             console.log(personagemPrincipal.podeCaminhar);
             if(personagemPrincipal.escondido){
                document.getElementById('wrapperVitoria').style.display = 'flex';
+               /* AQUI PARAR DE TOCAR A MUSICA AMBIENTE E TOCAR UMA MUSICA DE VITORIA */
             }else{
                document.getElementById('wrapperDerrota').style.display = 'flex';
+               /* AQUI PARAR DE TOCAR A MUSICA AMBIENTE E COMECAR A TOCAR UMA MUSICA DE DERROTA */
             }
          }
       }
