@@ -19,6 +19,7 @@ function personagemPrincipal(context, teclado, imagem) {
   this.entrando = false;
   this.escondendo = false;
   this.escondido = false;
+  this.podeCaminhar = false;
 
   this.xTemp = null;
   this.yTemp = null;
@@ -73,12 +74,6 @@ function colideComObstaculo(x, y, larguraSprite, alturaSprite) {
     ];
   }
 
-  context.fillStyle = 'rgba(255, 0, 0, 0.5)'; // Vermelho com transparência
-
-  for (let obstaculo of obstaculos) {
-    context.fillRect(obstaculo.x, obstaculo.y, obstaculo.width, obstaculo.height);
-  }
-
   for (let obstaculo of obstaculos) {
     if (x < obstaculo.x + obstaculo.width &&
       x + larguraSprite > obstaculo.x &&
@@ -100,12 +95,6 @@ function interacaoPorta(x, y, larguraSprite, alturaSprite) {
     portas = [
       { x: 530, y: 0, width: 200, height: 340 },
     ];
-  }
-  
-  context.fillStyle = 'rgba(0, 255, 0, 0.5)'; // Vermelho com transparência
-
-  for (let porta of portas) {
-    context.fillRect(porta.x, porta.y, porta.width, porta.height);
   }
 
   for (let porta of portas) {
@@ -137,12 +126,6 @@ function interacaoSeEsconder(x, y, larguraSprite, alturaSprite) {
       { x: 1000, y: 200, width: 200, height: 90 }, //Caixote
     ];
   }
-  
-  context.fillStyle = 'rgba(0, 0, 255, 0.5)'; // Vermelho com transparência
-
-  for (let esconderijo of esconderijos) {
-    context.fillRect(esconderijo.x, esconderijo.y, esconderijo.width, esconderijo.height);
-  }
 
   for (let esconderijo of esconderijos) {
     if (x < esconderijo.x + esconderijo.width &&
@@ -156,7 +139,11 @@ function interacaoSeEsconder(x, y, larguraSprite, alturaSprite) {
 }
 personagemPrincipal.prototype = {
   atualizar: function () {
-    if (this.teclado.pressionada(SETA_DIREITA) && this.x < this.context.canvas.width - 60 && colideComObstaculo(this.x + this.velocidade, this.y, 60, 90)) {
+    if(this.escondido){
+        this.context.fillStyle = 'rgba(0, 0, 0, 0.6)';
+        this.context.fillRect(0, 0, 1600, 960);
+    }
+    if (this.teclado.pressionada(SETA_DIREITA) && this.x < this.context.canvas.width - 60 && colideComObstaculo(this.x + this.velocidade, this.y, 60, 90) && this.podeCaminhar) {
       if (!this.andando || this.direcao != PERSONAGEM_DIREITA) {
         this.sheet.linha = 1;
         this.sheet.coluna = 0;
@@ -168,7 +155,7 @@ personagemPrincipal.prototype = {
       this.sheet.proximoQuadro();
 
       this.x += this.velocidade;
-    } else if (this.teclado.pressionada(SETA_ESQUERDA) && this.x > this.context.canvas.width - this.context.canvas.width && colideComObstaculo(this.x - this.velocidade, this.y, 60, 90)) {
+    } else if (this.teclado.pressionada(SETA_ESQUERDA) && this.x > this.context.canvas.width - this.context.canvas.width && colideComObstaculo(this.x - this.velocidade, this.y, 60, 90) && this.podeCaminhar) {
       if (!this.andando || this.direcao != PERSONAGEM_ESQUERDA) {
         this.sheet.linha = 2;
         this.sheet.coluna = 0;
@@ -178,7 +165,7 @@ personagemPrincipal.prototype = {
       this.direcao = PERSONAGEM_ESQUERDA;
       this.sheet.proximoQuadro();
       this.x -= this.velocidade;
-    } else if (this.teclado.pressionada(SETA_CIMA) && this.y > this.context.canvas.height - this.context.canvas.height && colideComObstaculo(this.x, this.y - this.velocidade, 60, 90)) {
+    } else if (this.teclado.pressionada(SETA_CIMA) && this.y > this.context.canvas.height - this.context.canvas.height && colideComObstaculo(this.x, this.y - this.velocidade, 60, 90) && this.podeCaminhar) {
       if (!this.andando || this.direcao != PERSONAGEM_CIMA) {
         this.sheet.linha = 3;
         this.sheet.coluna = 0;
@@ -188,7 +175,7 @@ personagemPrincipal.prototype = {
       this.direcao = PERSONAGEM_CIMA;
       this.sheet.proximoQuadro();
       this.y -= this.velocidade;
-    } else if (this.teclado.pressionada(SETA_BAIXO) && this.y < this.context.canvas.height - 90 && colideComObstaculo(this.x, this.y + this.velocidade, 60, 90)) {
+    } else if (this.teclado.pressionada(SETA_BAIXO) && this.y < this.context.canvas.height - 90 && colideComObstaculo(this.x, this.y + this.velocidade, 60, 90) && this.podeCaminhar) {
       if (!this.andando || this.direcao != PERSONAGEM_BAIXO) {
         this.sheet.linha = 0;
         this.sheet.coluna = 0;
@@ -198,7 +185,7 @@ personagemPrincipal.prototype = {
       this.direcao = PERSONAGEM_BAIXO;
       this.sheet.proximoQuadro();
       this.y += this.velocidade;
-    } else if (this.teclado.pressionada(ESPACO) && (interacaoPorta(this.x, this.y, 60, 90) || interacaoSeEsconder(this.x, this.y, 60, 90))) {
+    } else if (this.teclado.pressionada(ESPACO) && (interacaoPorta(this.x, this.y, 60, 90) || interacaoSeEsconder(this.x, this.y, 60, 90)) && this.podeCaminhar) {
       if(interacaoPorta(this.x, this.y, 60, 90)){
         if(this.entrando == false){
           this.entrando = true;

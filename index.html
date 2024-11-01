@@ -16,7 +16,7 @@
       <button id="startButton">Start</button>
       <p id="regras">
         A polícia está atrás de você, se esconda!
-        <br>
+        <br><br>
         Encontre um local para se enconder dentro de 30 segundos e fique escondido até o tempo acabar para ganhar!
          <br><br>
          ⬅ Move para a Esquerda <br>
@@ -25,6 +25,36 @@
          ⬇ Move para Baixo <br>
          [SPACE] Entrar nos lugares
       </p>
+    </div>
+    <div id="wrapperVitoria">
+      <div id="menuVitoria">
+         <p id="TituloResultado">
+            GANHOU!
+         </p>
+         <p id="DescricaoResultado">
+            Você conseguiu escapar da polícia, Parabéns!
+         </p>
+         <a href="index.html">
+            <button id="btnResultado">
+               Jogar Novamente
+            </button>
+         </a>
+      </div>
+    </div>
+    <div id="wrapperDerrota">
+      <div id="menuDerrota">
+         <p id="TituloResultado">
+            PERDEU!
+         </p>
+         <p id="DescricaoResultado">
+            Você foi pego pela polícia, tente novamente!
+         </p>
+         <a href="index.html">
+            <button id="btnResultado">
+               Tente Novamente
+            </button>
+         </a>
+      </div>
     </div>
     <script>
       let segundos = 30;
@@ -62,13 +92,21 @@
             timer.textContent = 0;
             clearInterval(intervalo);
             intervalo = null;
+            personagemPrincipal.podeCaminhar = false;
+            console.log(personagemPrincipal.podeCaminhar);
+            if(personagemPrincipal.escondido){
+               document.getElementById('wrapperVitoria').style.display = 'flex';
+            }else{
+               document.getElementById('wrapperDerrota').style.display = 'flex';
+            }
          }
       }
 
       document.getElementById("startButton").addEventListener("click", () => {
-         if (!intervalo) {
+         if (!intervalo && segundos > 0) {
             intervalo = setInterval(atualizarTimer, 1000);
          } 
+         personagemPrincipal.podeCaminhar = true;
       });
     </script>
   </body>

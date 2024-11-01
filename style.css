@@ -1,71 +1,140 @@
 @font-face {
-  font-family: "RetroFont";
-  src: url("fonts/RETROTECH.ttf");
+    font-family: "RetroFont";
+    src: url("fonts/RETROTECH.ttf");
 }
 
 body {
-  background-color: #ff7e00;
-  display: flex;
-  flex-direction: row;
+    background-color: #ff7e00;
+    display: flex;
+    flex-direction: row;
 }
+
 #canvas {
-  background-image: url(assets/CenarioExterior.jpeg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  max-height: 960px;
-  max-width: 1600px;
-  width: 70%;
-  height: 70%;
-  border-radius: 5px;
+    background-image: url(assets/CenarioExterior.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-height: 960px;
+    max-width: 1600px;
+    width: 70%;
+    height: 70%;
+    border-radius: 5px;
 }
 
 #wrapper {
-  width: 380px;
-  background-color: white;
-  margin-left: 8px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    width: 380px;
+    background-color: white;
+    margin-left: 8px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #timer {
-  font-size: 48px;
-  letter-spacing: 4px;
-  margin-bottom: 20px;
-  margin-top: 60px;
-  font-family: "RetroFont", sans-serif;
+    font-size: 48px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    margin-top: 60px;
+    font-family: "RetroFont", sans-serif;
 }
 
 #startButton {
-  margin-top: 20px;
-  width: 200px;
-  height: 60px;
-  background-color: #f00;
-  color: #fff;
-  padding: 15px 30px;
-  border: 2px solid #fff;
-  border-radius: 5px;
-  font-size: 24px;
-  text-transform: uppercase;
-  text-shadow: 1px 1px #000;
-  cursor: pointer;
-  box-shadow: 0 0 5px #fff, inset 0 0 5px #000;
-  transition: background-color 0.3s, transform 0.1s;
-  font-family: "RetroFont", sans-serif;
+    margin-top: 20px;
+    width: 200px;
+    height: 60px;
+    background-color: #f00;
+    color: #fff;
+    padding: 15px 30px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    font-size: 24px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px #000;
+    cursor: pointer;
+    box-shadow: 0 0 5px #fff, inset 0 0 5px #000;
+    transition: background-color 0.3s, transform 0.1s;
+    font-family: "RetroFont", sans-serif;
 }
 
 #startButton:hover {
-  background-color: #d00;
+    background-color: #d00;
 }
 
 #startButton:active {
-  transform: scale(0.95);
+    transform: scale(0.95);
 }
 
-#regras{
+#regras {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
+}
+
+#wrapperVitoria,
+#wrapperDerrota {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    position: absolute;
+    z-index: 3;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin: -8px;
+}
+
+#menuVitoria,
+#menuDerrota {
+    height: 50%;
+    width: 60%;
+    background-color: #ff7e00;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#btnResultado {
+    margin-top: 20px;
+    width: 200px;
+    height: 80px;
+    background-color: #f00;
+    color: #fff;
+    padding: 15px 30px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    font-size: 24px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px #000;
+    cursor: pointer;
+    box-shadow: 0 0 5px #fff, inset 0 0 5px #000;
+    transition: background-color 0.3s, transform 0.1s;
+    font-family: "RetroFont", sans-serif;
+}
+
+#btnResultado:hover {
+    background-color: #d00;
+}
+
+#btnResultado:active {
+    transform: scale(0.95);
+}
+
+#TituloResultado{
+    font-size: 48px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    margin: 0px;
+    font-family: "RetroFont", sans-serif;
+}
+
+#DescricaoResultado{
+    font-size: 28px;
+    margin-bottom: 40px;
+    margin-top: 60px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
