@@ -3,6 +3,9 @@ var PERSONAGEM_ESQUERDA = 2;
 var PERSONAGEM_CIMA = 3;
 var PERSONAGEM_BAIXO = 4;
 
+var somPorta = new Audio('sounds/som_porta.wav');
+var somEsconder = new Audio('sounds/som_esconder.wav');
+
 function personagemPrincipal(context, teclado, imagem) {
   this.context = context;
   this.teclado = teclado;
@@ -195,17 +198,21 @@ personagemPrincipal.prototype = {
             this.y = 240;
             this.direcao = PERSONAGEM_BAIXO;
             this.interior = false;
+            somPorta.play();
           }else{
             document.getElementById('canvas').style.backgroundImage = 'url(assets/CenarioInterior.jpg)';
             this.x = 740;
             this.y = 820;
             this.direcao = PERSONAGEM_CIMA;
             this.interior = true;
+            somPorta.play();
           }
+          
         }
       }else{
         if(this.escondendo == false){
           this.escondendo = true;
+          somEsconder.play();
           if(this.escondido){
             this.escondido = false;
             this.x = this.xTemp;
