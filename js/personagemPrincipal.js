@@ -214,11 +214,13 @@ personagemPrincipal.prototype = {
           this.escondendo = true;
           somEsconder.play();
           if(this.escondido){
+            window.tempoEscondido = 0;
             this.escondido = false;
             this.x = this.xTemp;
             this.y = this.yTemp;
           }else{
             this.escondido = true;
+            window.tempoEscondido = window.segundos;
             this.xTemp = this.x;
             this.yTemp = this.y;
             this.x = 20000;

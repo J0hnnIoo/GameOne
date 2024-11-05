@@ -32,7 +32,8 @@
       <div id="menuVitoria">
         <p id="TituloResultado">GANHOU!</p>
         <p id="DescricaoResultado">
-          Você conseguiu escapar da polícia, Parabéns!
+          Você conseguiu escapar da polícia, Parabéns! <br>
+          Você fez um total de 0 Pontos.
         </p>
         <a href="index.html">
           <button id="btnResultado">Jogar Novamente</button>
@@ -43,7 +44,8 @@
       <div id="menuDerrota">
         <p id="TituloResultado">PERDEU!</p>
         <p id="DescricaoResultado">
-          Você foi pego pela polícia, tente novamente!
+          Você foi pego pela polícia, tente novamente! <br>
+          Você fez um total de 0 Pontos.
         </p>
         <a href="index.html">
           <button id="btnResultado">Tente Novamente</button>
@@ -51,7 +53,8 @@
       </div>
     </div>
     <script>
-      let segundos = 30;
+      window.pontos = 0;
+      window.segundos = 30;
       let intervalo;
 
       const som_policia = new Howl({
@@ -121,15 +124,16 @@
       };
 
       function atualizarTimer(params) {
-        segundos--;
-        timer.textContent = segundos;
-        if (segundos == 0) {
+         window.segundos--;
+        timer.textContent = window.segundos;
+        if (window.segundos == 0) {
           timer.textContent = 0;
           clearInterval(intervalo);
           intervalo = null;
           personagemPrincipal.podeCaminhar = false;
-          console.log(personagemPrincipal.podeCaminhar);
           if (personagemPrincipal.escondido) {
+            window.pontos = Math.round(window.tempoEscondido * 3.333);
+            document.getElementById("DescricaoResultado").innerHTML = 'Você conseguiu escapar da polícia, Parabéns! <br>Você fez um total de ' + window.pontos + ' Pontos'
             document.getElementById("wrapperVitoria").style.display = "flex";
             som_policia.stop();
             som_vitoria.play();
