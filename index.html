@@ -180,7 +180,20 @@
         console.log("WebSocket desconectado");
       };
 
-      
+      ws.onmessage = (event) => {
+        const message = JSON.parse(event.data);
+
+        if (message.type === "keydown") {
+          keys[message.key] = true;
+          if (message.key === "ArrowUp") {
+            aluno.jump();
+          }
+        }
+
+        if (message.type === "keyup") {
+          keys[message.key] = false;
+        }
+      };
     </script>
   </body>
 </html>
