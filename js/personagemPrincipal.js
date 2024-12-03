@@ -1,27 +1,3 @@
-<?php
-  $host = '127.0.0.1';
-  $port = 12345;       
-  
-  // Cria um socket TCP/IP
-  $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-  socket_bind($socket, $host, $port);
-  socket_listen($socket);
-  while (true) {
-      $clientSocket = socket_accept($socket);
-      $data = socket_read($clientSocket, 1024);
-      echo "Recebido: $data\n";
-  
-      // Envia uma resposta para o cliente
-      $response = "Servidor: " . strtoupper($data);
-      socket_write($clientSocket, $response, strlen($response));
-  
-      // Fecha a conexão com o cliente
-      socket_close($clientSocket);
-  }
-  
-  socket_close($socket);
-?>
-<script>
 var PERSONAGEM_DIREITA = 1;
 var PERSONAGEM_ESQUERDA = 2;
 var PERSONAGEM_CIMA = 3;
@@ -277,4 +253,3 @@ personagemPrincipal.prototype = {
   },
 };
 
-</script>
