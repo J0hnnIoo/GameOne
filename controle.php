@@ -28,3 +28,43 @@
     </div>
 </body>
 </html>
+<script>
+        const ws = new WebSocket('ws://127.0.0.1:8081');
+
+        ws.onopen = () => {
+            console.log("Conectado ao servidor WebSocket");
+        };
+
+        ws.onerror = (error) => {
+            console.error("Erro no WebSocket:", error);
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket desconectado");
+        };
+
+        // Mapear os botões para as teclas correspondentes
+        const buttonKeyMap = {
+            keyup: 'ArrowUp',
+            keyleft: 'ArrowLeft',
+            keyright: 'ArrowRight',
+            keydown: 'ArrowDown',
+            keyspace: 'Space'
+        };
+
+        // Adicionar eventos de clique aos botões
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                const key = buttonKeyMap[button.id];
+                if (key) {
+                    ws.send(JSON.stringify({ type: 'keydown', key }));
+                }
+            });
+            button.addEventListener('mouseup', () => {
+                const key = buttonKeyMap[button.id];
+                if (key) {
+                    ws.send(JSON.stringify({ type: 'keyup', key }));
+                }
+            });
+        });
+    </script>
