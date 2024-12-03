@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Personagem controlável e animado</title>
     <script src="js/spritesheet.js"></script>
     <script src="js/animacao.js"></script>
@@ -30,13 +30,17 @@
         [SPACE] Entrar nos lugares
       </p>
 
-      <a href="controle.php"><button id="startButton" style="height: max-content;">Usar como controle</button></a>
+      <a href="controle.php"
+        ><button id="startButton" style="height: max-content">
+          Usar como controle
+        </button></a
+      >
     </div>
     <div id="wrapperVitoria">
       <div id="menuVitoria">
         <p id="TituloResultado">GANHOU!</p>
         <p id="DescricaoResultado">
-          Você conseguiu escapar da polícia, Parabéns! <br>
+          Você conseguiu escapar da polícia, Parabéns! <br />
           Você fez um total de 0 Pontos.
         </p>
         <a href="index.html">
@@ -48,7 +52,7 @@
       <div id="menuDerrota">
         <p id="TituloResultado">PERDEU!</p>
         <p id="DescricaoResultado">
-          Você foi pego pela polícia, tente novamente! <br>
+          Você foi pego pela polícia, tente novamente! <br />
           Você fez um total de 0 Pontos.
         </p>
         <a href="index.html">
@@ -128,7 +132,7 @@
       };
 
       function atualizarTimer(params) {
-         window.segundos--;
+        window.segundos--;
         timer.textContent = window.segundos;
         if (window.segundos == 0) {
           timer.textContent = 0;
@@ -137,7 +141,10 @@
           personagemPrincipal.podeCaminhar = false;
           if (personagemPrincipal.escondido) {
             window.pontos = Math.round(window.tempoEscondido * 3.333);
-            document.getElementById("DescricaoResultado").innerHTML = 'Você conseguiu escapar da polícia, Parabéns! <br>Você fez um total de ' + window.pontos + ' Pontos'
+            document.getElementById("DescricaoResultado").innerHTML =
+              "Você conseguiu escapar da polícia, Parabéns! <br>Você fez um total de " +
+              window.pontos +
+              " Pontos";
             document.getElementById("wrapperVitoria").style.display = "flex";
             som_policia.stop();
             som_vitoria.play();
@@ -151,7 +158,7 @@
 
       document.getElementById("startButton").addEventListener("click", () => {
         som_policia.volume(0.05);
-        som_musica.volume(0.06)
+        som_musica.volume(0.06);
         if (!intervalo) {
           intervalo = setInterval(atualizarTimer, 1000);
           som_policia.play();
@@ -159,6 +166,21 @@
         }
         personagemPrincipal.podeCaminhar = true;
       });
+
+      const ws = new WebSocket("ws://127.0.0.1:8081");
+      ws.onopen = () => {
+        console.log("Conectado ao servidor WebSocket");
+      };
+
+      ws.onerror = (error) => {
+        console.error("Erro no WebSocket:", error);
+      };
+
+      ws.onclose = () => {
+        console.log("WebSocket desconectado");
+      };
+
+      
     </script>
   </body>
 </html>
