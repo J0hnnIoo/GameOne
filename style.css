@@ -138,3 +138,15 @@ body {
     margin-top: 60px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
 }
+
+#controles{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#subcontroles{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
