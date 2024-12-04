@@ -1,7 +1,8 @@
-<?
+<?php
 
 $host = '127.0.0.1';
 $port = '8081';
+set_time_limit(5000);
 
 $serverSocket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 socket_bind($serverSocket, $host, $port);
@@ -82,13 +83,13 @@ while (true) {
         unset($readSocket[array_search($serverSocket, $readSocket)]);
     }
 
-    foreach ($readSockets as $socket) {
+    foreach ($readSocket as $socket) {
         $data = @socket_read($socket, 1024, PHP_BINARY_READ);
 
         if ($data === false) {
             // Cliente desconectado
             echo "Cliente desconectado.\n";
-            unset($clients[array_search($socket, $clients)]);
+            unset($clientes[array_search($socket, $clientes)]);
             socket_close($socket);
             continue;
         }
@@ -98,7 +99,7 @@ while (true) {
 
         // Repassar a mensagem para todos os clientes conectados
         $encodedMessage = encodeWebSocketMessage($message);
-        foreach ($clients as $client) {
+        foreach ($clientes as $client) {
             if ($client !== $serverSocket && $client !== $socket) {
                 @socket_write($client, $encodedMessage, strlen($encodedMessage));
             }

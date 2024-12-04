@@ -61,6 +61,11 @@
       </div>
     </div>
     <script>
+      var SETA_ESQUERDA = 37;
+      var SETA_DIREITA = 39;
+      var SETA_CIMA = 38;
+      var SETA_BAIXO = 40;
+      var ESPACO = 32;
       window.pontos = 0;
       window.segundos = 30;
       let intervalo;
@@ -166,34 +171,6 @@
         }
         personagemPrincipal.podeCaminhar = true;
       });
-
-      const ws = new WebSocket("ws://127.0.0.1:8081");
-      ws.onopen = () => {
-        console.log("Conectado ao servidor WebSocket");
-      };
-
-      ws.onerror = (error) => {
-        console.error("Erro no WebSocket:", error);
-      };
-
-      ws.onclose = () => {
-        console.log("WebSocket desconectado");
-      };
-
-      ws.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-
-        if (message.type === "keydown") {
-          keys[message.key] = true;
-          if (message.key === "ArrowUp") {
-            aluno.jump();
-          }
-        }
-
-        if (message.type === "keyup") {
-          keys[message.key] = false;
-        }
-      };
     </script>
   </body>
 </html>
